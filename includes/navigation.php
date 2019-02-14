@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <?php 
-                        $query = "SELECT * FROM categories";
+                        $query = "SELECT * FROM categories LIMIT 5";
                         $select_all_categories_query = mysqli_query($conn, $query);
                         
                         while($row = mysqli_fetch_assoc($select_all_categories_query)){

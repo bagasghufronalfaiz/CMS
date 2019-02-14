@@ -15,7 +15,7 @@
                             <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                         </li>
                     </ol>
-                </div>
+                </div>                            
             </div>
             <!-- /.row -->
 
