@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <input type="submit" name="submit" class="btn btn-primary" value="Add New">
                         </div>
-                    </form>
+                    </form>    
                 </div>
                 <div class="col-lg-6">
                     <table class="table table-bordered table-hover table-striped">
@@ -66,24 +66,64 @@
                                     <form method="post" action="">
                                     <input type="submit" name="delete" class="btn btn-primary" value="Delete">
                                     </form>
-                                    <?php
-                                    echo $cat_id;
-                                    if(isset($_POST['delete'])){
-                                        $query_delete_category = "DELETE FROM categories WHERE cat_id=$cat_id";
-                                        $delete_category = mysqli_query($conn, $query_delete_category);
-                                        if(!$delete_category){
-                                            die("Connection failed: " . $conn->connect_error);
-                                        }
-                                    }
-                                    ?>
+                                    
                                 </td>
-                            </tr>                            
+                                <td>  
+                                    <form method="post" action="">
+                                    <input type="hidden" value="<?php echo $cat_id; ?>" name="cat_id">
+                                    <input type="submit" name="edit" class="btn btn-primary" value="Edit">
+                                    </form>
+                                    
+                                </td>
                             <?php
                             }                    
-                            ?>                            
+                            if(isset($_POST['delete'])){
+                            $query_delete_category = "DELETE FROM categories WHERE cat_id=$cat_id";
+                            $delete_category = mysqli_query($conn, $query_delete_category);
+                            header("Location: categories.php");
+                            }
+                            ?>
+                                
+                            </tr>                            
+                            
                         </tbody>
                     </table>
-                </div>                
+                </div> 
+                <div class="col-lg-12">
+                <h3>Edit Category</h3>
+<form action="" method="post">
+    <div class="form-group">
+        <?php
+        if(isset($_POST['edit'])){
+            $cat_id = $_POST['cat_id'];
+            $query_edit_category = "SELECT * FROM categories WHERE cat_id = $cat_id";
+            $select_categories_edit = mysqli_query($conn, $query_edit_category);
+            while($row = mysqli_fetch_assoc($select_categories_edit)){
+                echo $cat_id = $row['cat_id'];
+                echo $cat_title = $row['cat_title'];
+        ?>
+        <input value="<?php if(isset($cat_title)){echo $cat_title;} ?>" type="text" name="cat_title" class="form-control">
+        <?php
+                
+            }
+        }
+        ?>
+        <?php
+        if(isset($_POST['update_category'])){
+            $the_cat_title = $_POST['cat_title'];
+            echo $the_cat_title;
+            echo $cat_id;
+            $query_update_category = "UPDATE categories SET cat_title = $the_cat_title  WHERE cat_id=$cat_id";
+            $update_category = mysqli_query($conn, $query_update_category);
+        }
+        ?>
+        
+    </div>
+    <div class="form-group">
+        <input type="submit" name="update_category" class="btn btn-primary" value="Update Category">
+    </div>
+</form>
+                </div>
             </div>
             <!-- /.row -->
 
