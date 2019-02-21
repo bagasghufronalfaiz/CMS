@@ -70,7 +70,7 @@
                                 </td>
                                 <td>  
                                     <form method="post" action="">
-                                    <input type="hidden" value="<?php echo $cat_id; ?>" name="cat_id">
+                                    <input type="hidden" value="<?php echo $cat_id; ?>" name="edit_cat_id">
                                     <input type="submit" name="edit" class="btn btn-primary" value="Edit">
                                     </form>
                                     
@@ -95,32 +95,36 @@
     <div class="form-group">
         <?php
         if(isset($_POST['edit'])){
-            $cat_id = $_POST['cat_id'];
-            $query_edit_category = "SELECT * FROM categories WHERE cat_id = $cat_id";
+            $edit_cat_id = $_POST['edit_cat_id'];            
+            $query_edit_category = "SELECT * FROM categories WHERE cat_id = $edit_cat_id";
             $select_categories_edit = mysqli_query($conn, $query_edit_category);
             while($row = mysqli_fetch_assoc($select_categories_edit)){
-                echo $cat_id = $row['cat_id'];
-                echo $cat_title = $row['cat_title'];
+                $edit_cat_id = $row['cat_id'];
+                $edit_cat_title = $row['cat_title'];
         ?>
-        <input value="<?php if(isset($cat_title)){echo $cat_title;} ?>" type="text" name="cat_title" class="form-control">
+        <input value="<?php echo $edit_cat_id; ?>" type="hidden" name="cat_id">
+        <input value="<?php if(isset($cat_title)){echo $edit_cat_title;} ?>" type="text" name="cat_title" class="form-control">
         <?php
                 
             }
         }
         ?>
-        <?php
-        if(isset($_POST['update_category'])){
-            $the_cat_title = $_POST['cat_title'];
-            echo $the_cat_title;
-            echo $cat_id;
-            $query_update_category = "UPDATE categories SET cat_title = $the_cat_title  WHERE cat_id=$cat_id";
-            $update_category = mysqli_query($conn, $query_update_category);
-        }
-        ?>
+        
         
     </div>
     <div class="form-group">
         <input type="submit" name="update_category" class="btn btn-primary" value="Update Category">
+        <?php
+        if(isset($_POST['update_category'])){
+            $the_cat_title = $_POST['cat_title'];
+            $the_cat_id = $_POST['cat_id'];
+            $query_update_category = "UPDATE categories SET cat_title = '{$the_cat_title}'  WHERE cat_id = {$the_cat_id} ";
+            $update_category = mysqli_query($conn, $query_update_category);
+            if(!$update_category){
+                die("Query Failed" . mysqli_error($conn));
+            }
+        }
+        ?>
     </div>
 </form>
                 </div>
